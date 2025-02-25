@@ -7,7 +7,7 @@ Share Tools: List Devices
 ---
 Name: List Devices
 Description: List all SmartThings Devices
-Credential: ./credential
+Credential: ./credentials
 
 #!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py ListDevices
 
