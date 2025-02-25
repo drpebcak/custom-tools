@@ -1,0 +1,13 @@
+---
+Name: SmartThings
+Description: Tools for interacting with Zoom
+Metadata: bundle: true
+Share Tools: List Devices
+
+---
+Name: List Devices
+Description: List all SmartThings Devices
+Credential: ./credential
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py ListDevices
+
