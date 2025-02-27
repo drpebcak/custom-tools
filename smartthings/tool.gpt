@@ -9,9 +9,43 @@ Name: List Devices
 Description: List all SmartThings Devices
 Credential: ./credentials
 
-#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py ListDevices
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listDevices
 
 ---
-!metadata:*:oauth
-smartthings
+Name: Get Device Info
+Description: Get information about a SmartThings Device, including Capabilities and current State
+Credential: ./credentials
+Param: device_id: The GUID deviceId of the device you want information on. Can be looked up with `List Devices` tool
+Tools: List Devices
 
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js getDeviceInfo
+
+---
+Name: Toggle Device
+Description: Toggle the State of a SmartThings Device Capability
+Credential: ./credentials
+Param: device_id: The GUID deviceId of the device you want information on. Can be looked up with `List Devices` tool
+Param: capability: The name of the capability to toggle. Can be looked up with `Get Device Info` tool
+Param: state: The state to put the device into.
+Tools: List Devices, Get Device Info
+
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js toggleDevice
+
+
+---
+!metadata:*:supportsOAuthTokenPrompt
+true
+
+---
+Name: SmartThings Context
+Type: Context
+
+#!sys.echo
+
+`List Devices` can be used to find the GUID of a device using the friendly name (called a `label` in the api).
+Do not return Ids to the user unless they specifically ask for it.
+
+Capabilities are generally whatever the current state of the device is and the opposite of that.
+* For a switch, that's "on" or "off".
+* For a lock, that's "lock" or "unlock".
+* For devices with a 'level' capability, it is a value between 0-100.
