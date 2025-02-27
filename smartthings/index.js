@@ -1,4 +1,4 @@
-const {SmartThingsClient, BearerTokenAuthenticator, Command} = require('@smartthings/core-sdk')
+const {SmartThingsClient, BearerTokenAuthenticator, DeviceListOptions} = require('@smartthings/core-sdk')
 
 const command = process.argv[2]
 let token = process.env.SMARTTHINGS_OAUTH_TOKEN
@@ -11,8 +11,8 @@ if (token === undefined || token === "") {
 const st = new SmartThingsClient(new BearerTokenAuthenticator(token))
 
 async function main() {
-    console.log(`Executing ${command}`)
     const deviceId = process.env.DEVICE_ID
+    const locationId = process.env.LOCATION_ID
     switch (command) {
         case "listDevices":
             await listDevices(st)
@@ -24,6 +24,15 @@ async function main() {
             break
         case "getDeviceInfo":
             await getDeviceInfo(st, deviceId)
+            break
+        case "listLocations":
+            await listLocations(st)
+            break
+        case "listRooms":
+            await listRooms(st, locationId)
+            break
+        case "listRules":
+            await listRules(st, locationId)
             break
     }
 }
@@ -119,5 +128,38 @@ function getRetryTime(error) {
     return 5000;
 }
 
-main()
+async function listLocations(st) {
+    const locations = await st.locations.list()
+    if (locations.length > 0) {
+        console.log(`Found ${locations.length} locations`)
+        for (location of locations) {
+            console.log(`"${location.name}" (${location.locationId})`)
+        }
+        return null
+    }
+    console.log(`Did not find any locations!`)
+}
 
+async function listRooms(st, locationId) {
+    const rooms = await st.rooms.list(locationId)
+    if (rooms.length > 0) {
+        console.log(`Found ${rooms.length} rooms`)
+        for (room of rooms) {
+            console.log(`"${room.name}" (${room.roomId})`)
+        }
+    }
+}
+
+async function listRules(st, locationId) {
+    const rules = await st.rules.list(locationId)
+    if (rules !== undefined && rules.length > 0) {
+        console.log(`Found ${rules.length} rooms`)
+        for (rule of rules) {
+            console.log(`"${rule.name}" (${rule.roomId})`)
+        }
+        return null
+    }
+    console.log(`Did not find any rules!`)
+}
+
+main()

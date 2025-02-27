@@ -13,6 +13,27 @@ Credential: ./credentials
 #!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listDevices
 
 ---
+Name: List Locations
+Description: List all SmartThings Locations
+Credential: ./credentials
+
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listLocations
+
+---
+Name: List Rooms
+Description: List all SmartThings Rooms
+Credential: ./credentials
+
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listRooms
+
+---
+Name: List Rules
+Description: List all SmartThings Rules
+Credential: ./credentials
+
+#!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listRules
+
+---
 Name: Get Device Info
 Description: Get information about a SmartThings Device, including Capabilities and current State
 Context: SmartThings Context
@@ -52,3 +73,4 @@ Capabilities are generally whatever the current state of the device is and the o
 * For a switch, that's "on" or "off".
 * For a lock, that's "lock" or "unlock".
 * For devices with a 'level' capability, it is a value between 0-100.
+The `Get Device Info` tool should be used to discover the current state of a Device.
