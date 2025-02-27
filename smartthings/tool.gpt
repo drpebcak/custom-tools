@@ -2,7 +2,7 @@
 Name: SmartThings
 Description: Tools for interacting with Zoom
 Metadata: bundle: true
-Share Tools: List Devices, Get Device Info, Toggle Device
+Share Tools: List Devices, List Locations, List Rooms, List Rules, Get Device Info, Toggle Device
 
 ---
 Name: List Devices
