@@ -2,11 +2,12 @@
 Name: SmartThings
 Description: Tools for interacting with Zoom
 Metadata: bundle: true
-Share Tools: List Devices
+Share Tools: List Devices, Get Device Info, Toggle Device
 
 ---
 Name: List Devices
 Description: List all SmartThings Devices
+Context: SmartThings Context
 Credential: ./credentials
 
 #!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js listDevices
@@ -14,6 +15,7 @@ Credential: ./credentials
 ---
 Name: Get Device Info
 Description: Get information about a SmartThings Device, including Capabilities and current State
+Context: SmartThings Context
 Credential: ./credentials
 Param: device_id: The GUID deviceId of the device you want information on. Can be looked up with `List Devices` tool
 Tools: List Devices
@@ -23,6 +25,7 @@ Tools: List Devices
 ---
 Name: Toggle Device
 Description: Toggle the State of a SmartThings Device Capability
+Context: SmartThings Context
 Credential: ./credentials
 Param: device_id: The GUID deviceId of the device you want information on. Can be looked up with `List Devices` tool
 Param: capability: The name of the capability to toggle. Can be looked up with `Get Device Info` tool
