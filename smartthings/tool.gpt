@@ -55,11 +55,6 @@ Tools: List Devices, Get Device Info
 
 #!/usr/bin/env node --no-warnings ${GPTSCRIPT_TOOL_DIR}/index.js toggleDevice
 
-
----
-!metadata:*:supportsOAuthTokenPrompt
-true
-
 ---
 Name: SmartThings Context
 Type: Context
