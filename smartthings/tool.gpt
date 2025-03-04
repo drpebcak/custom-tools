@@ -69,3 +69,7 @@ Capabilities are generally whatever the current state of the device is and the o
 * For a lock, that's "lock" or "unlock".
 * For devices with a 'level' capability, it is a value between 0-100.
 The `Get Device Info` tool should be used to discover the current state of a Device.
+
+---
+!metadata:*:oauth
+smartthings
