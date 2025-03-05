@@ -1,7 +1,7 @@
 const {SmartThingsClient, BearerTokenAuthenticator, DeviceListOptions} = require('@smartthings/core-sdk')
 
 const command = process.argv[2]
-let token = process.env.SMARTTHINGS_OAUTH_TOKEN
+let token = process.env.SMARTTHINGS_TOKEN
 let tokenType = "bearer"
 if (token === undefined || token === "") {
     token = process.env.SMARTTHINGS_API_TOKEN
