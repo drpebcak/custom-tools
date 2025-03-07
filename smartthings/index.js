@@ -1,4 +1,6 @@
 const {SmartThingsClient, BearerTokenAuthenticator, DeviceListOptions} = require('@smartthings/core-sdk')
+const {SceneListOptions} = require("@smartthings/core-sdk/dist/endpoint/scenes");
+const {RuleRequest} = require("@smartthings/core-sdk/dist/endpoint/rules");
 
 const command = process.argv[2]
 let token = process.env.SMARTTHINGS_TOKEN
@@ -13,6 +15,7 @@ const st = new SmartThingsClient(new BearerTokenAuthenticator(token))
 async function main() {
     const deviceId = process.env.DEVICE_ID
     const locationId = process.env.LOCATION_ID
+    const ruleId = process.env.RULE_ID
     switch (command) {
         case "listDevices":
             await listDevices(st)
@@ -33,6 +36,18 @@ async function main() {
             break
         case "listRules":
             await listRules(st, locationId)
+            break
+        case "getRule":
+            await getRule(st, ruleId, locationId)
+            break
+        case "deleteRule":
+            await deleteRule(st, ruleId, locationId)
+            break
+        case "createRule":
+            const ruleName = process.env.RULE_NAME
+            const ruleActions = process.env.RULE_ACTIONS
+            const ruleSequence = process.env.RULE_SEQUENCE
+            await createRule(st, locationId, ruleName, ruleActions, ruleSequence)
             break
     }
 }
@@ -160,6 +175,36 @@ async function listRules(st, locationId) {
         return null
     }
     console.log(`Did not find any rules!`)
+}
+
+async function getRule(st, ruleId, locationId) {
+    const rule = await st.rules.get(ruleId, locationId)
+    console.log(`${rule.name} (${rule.id})`)
+    console.log('Sequence: ', rule.sequence)
+    console.log(`${rule.actions}`)
+}
+
+async function createRule(st, locationId, name, actions, sequence) {
+    const ruleRequest = {
+        name: name, actions: actions, sequence: {
+            actions: sequence,
+        }
+    }
+    try {
+        const newRule = await st.rules.create(ruleRequest, locationId)
+        console.log(newRule)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+async function deleteRule(st, locationId, ruleId) {
+    try {
+        await st.rules.delete(locationId, ruleId)
+        console.log(`Deleted rule with Id ${ruleId}`)
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 main()
